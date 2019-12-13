@@ -43,16 +43,7 @@ INSTALLED_APPS = [
 ]
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'words.auth.CustomAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ]
-}
-
-CUSTOM_TOKEN = 'some_secret_code'
+API_SECRET = 'some_secret_code'
 
 
 MIDDLEWARE = [
