@@ -43,5 +43,13 @@ class Word(models.Model):
     sound = models.FileField(upload_to='sound/')
     theme = models.ForeignKey(Theme, related_name='words', on_delete=models.CASCADE)
 
+    def audio_tag(self):
+        audio = """
+        <audio controls>
+          <source src="/media/{}" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>""".format(self.sound)
+        return mark_safe(audio)
+
     def __str__(self):
         return self.name
