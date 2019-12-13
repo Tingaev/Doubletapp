@@ -26,7 +26,9 @@ def get_levels(request: request) -> Response:
 
 @api_view(["GET"])
 def get_themes(request: request) -> Response:
-    themes = Theme.objects.all()
+    category = request.GET['category']
+    level = request.GET['level']
+    themes = Theme.objects.filter(category=category).filter(level=level)
     serializer = ThemeSerializer(themes, many=True)
     return Response(serializer.data)
 
