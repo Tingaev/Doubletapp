@@ -5,13 +5,13 @@ from words.models import Category, Level, Theme, Word
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['pk', 'name', 'icon']
+        fields = ('pk', 'name', 'icon')
 
 
 class LevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Level
-        fields = ['pk', 'name', 'code']
+        fields = ('pk', 'name', 'code')
 
 
 class ThemeSerializer(serializers.ModelSerializer):

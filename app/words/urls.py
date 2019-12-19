@@ -1,11 +1,11 @@
 from django.urls import path
-from words.views import get_categories, get_themes, get_theme, get_words, get_levels
+from words.views import ThemesList, WordDetail, ThemeDetail, LevelsList, CategoriesList
 
 
 urlpatterns = [
-    path('categories', get_categories, name='get_categories'),
-    path('themes', get_themes, name='get_themes'),
-    path('levels', get_levels, name='get_levels'),
-    path('themes/<int:id>', get_theme, name='get_theme'),
-    path('words/<int:id>', get_words, name='get_words'),
+    path('categories', CategoriesList.as_view(), name='get_categories'),
+    path('themes', ThemesList.as_view(), name='get_themes'),
+    path('levels', LevelsList.as_view(), name='get_levels'),
+    path('themes/<int:pk>', ThemeDetail.as_view(), name='get_theme'),
+    path('words/<int:pk>', WordDetail.as_view(), name='get_words'),
 ]
