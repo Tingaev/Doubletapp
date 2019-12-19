@@ -1,6 +1,7 @@
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import request
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+
+
 from words.models import Category, Level, Theme, Word
 from words.serializers import (CategorySerializer,
                                LevelSerializer,
@@ -10,36 +11,28 @@ from words.serializers import (CategorySerializer,
 
 
 
-@api_view(["GET"])
-def get_categories(request: request) -> Response:
-    categories = Category.objects.all()
-    serializer = CategorySerializer(categories, many=True)
-    return Response(serializer.data)
+class CategoriesList(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 
-@api_view(["GET"])
-def get_levels(request: request) -> Response:
-    levels = Level.objects.all()
-    serializer = LevelSerializer(levels, many=True)
-    return Response(serializer.data)
-
-@api_view(["GET"])
-def get_themes(request: request) -> Response:
-    category = request.GET['category']
-    level = request.GET['level']
-    themes = Theme.objects.filter(category=category).filter(level=level)
-    serializer = ThemeSerializer(themes, many=True)
-    return Response(serializer.data)
-
-@api_view(["GET"])
-def get_theme(request: request, id: int) -> Response:
-    theme = Theme.objects.get(pk=id)
-    serializer = ThemeWithWordsSerializer(theme)
-    return Response(serializer.data)
+class LevelsList(generics.ListAPIView):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer
 
 
-@api_view(["GET"])
-def get_words(request: request, id: int) -> Response:
-    word = Word.objects.get(pk=id)
-    serializer = WordFullSerializer(word)
-    return Response(serializer.data)
+class ThemesList(generics.ListAPIView):
+    queryset = Theme.objects.all()
+    serializer_class = ThemeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category', 'level']
+
+
+class ThemeDetail(generics.RetrieveAPIView):
+    queryset = Theme.objects.all()
+    serializer_class = ThemeWithWordsSerializer
+
+
+class WordDetail(generics.RetrieveAPIView):
+    queryset = Word.objects.all()
+    serializer_class = WordFullSerializer
