@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.safestring import mark_safe
+from django.template.loader import render_to_string
 
 
 
@@ -8,7 +8,7 @@ class Category(models.Model):
     icon = models.ImageField(upload_to='icon/')
 
     def image_tag(self):
-        return mark_safe('<img src="/media/%s" width="150" height="150" />' % self.icon)
+        return render_to_string('image_temp.html', {'link': self.icon})
 
     def __str__(self):
         return self.name
@@ -29,7 +29,7 @@ class Theme(models.Model):
     photo = models.ImageField(upload_to='photo/')
 
     def image_tag(self):
-        return mark_safe('<img src="/media/%s" width="150" height="150" />' % self.photo)
+        return render_to_string('image_temp.html', {'link': self.photo})
 
     def __str__(self):
         return self.name
@@ -44,12 +44,7 @@ class Word(models.Model):
     theme = models.ForeignKey(Theme, related_name='words', on_delete=models.CASCADE)
 
     def audio_tag(self):
-        audio = """
-        <audio controls>
-          <source src="/media/{}" type="audio/mpeg">
-          Your browser does not support the audio element.
-        </audio>""".format(self.sound)
-        return mark_safe(audio)
+        return render_to_string('audio_play.html', {'link': self.sound})
 
     def __str__(self):
         return self.name

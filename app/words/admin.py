@@ -1,6 +1,7 @@
 from django.contrib import admin
 from words.models import Category, Level, Theme, Word
 
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('pk', 'icon', 'image_tag')
     fields = ('name', 'icon','image_tag')
@@ -16,8 +17,9 @@ class ThemeAdmin(admin.ModelAdmin):
 class WordAdmin(admin.ModelAdmin):
     list_display = ('pk', 'audio_tag')
 
-    fields = ('translation', 'transcription', 'example', 'sound', 'audio_tag')
+    fields = ('translation', 'transcription', 'example', 'sound', 'audio_tag', 'theme')
     readonly_fields = ('audio_tag',)
+
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Word, WordAdmin)

@@ -6,7 +6,7 @@ from django.http import JsonResponse
 def check_middleware(get_response):
     def middleware(request: request):
         code = request.headers.get('Secret')
-        if code != settings.API_SECRET and not request.path.startswith('/admin/'):
+        if code != settings.API_SECRET and not (request.path.startswith('/admin/') or request.path.startswith('/media/')):
             return JsonResponse(data={'error': 'Invalid secret key'}, status=status.HTTP_403_FORBIDDEN)
         response = get_response(request)
         return response
