@@ -2,7 +2,6 @@ from django.db import models
 from django.template.loader import render_to_string
 
 
-
 class Category(models.Model):
     name = models.CharField(max_length=32)
     icon = models.ImageField(upload_to='icon/')

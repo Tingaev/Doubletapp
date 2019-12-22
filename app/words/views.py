@@ -1,5 +1,5 @@
 from rest_framework import generics
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.exceptions import NotFound
 
 
 from words.models import Category, Level, Theme, Word
@@ -8,7 +8,6 @@ from words.serializers import (CategorySerializer,
                                ThemeSerializer,
                                ThemeWithWordsSerializer,
                                WordFullSerializer)
-
 
 
 class CategoriesList(generics.ListAPIView):
@@ -22,10 +21,25 @@ class LevelsList(generics.ListAPIView):
 
 
 class ThemesList(generics.ListAPIView):
-    queryset = Theme.objects.all()
+    mdoel = Theme
     serializer_class = ThemeSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['category', 'level']
+
+    def get_queryset(self):
+        queryset = Theme.objects.all()
+        category = self.request.query_params.get('category')
+        level = self.request.query_params.get('level')
+
+        if category:
+            queryset = queryset.filter(category=category)
+        elif level:
+            queryset = queryset.filter(level=level)
+
+        if queryset:
+            return queryset
+        raise NotFound()
+
+
+
 
 
 class ThemeDetail(generics.RetrieveAPIView):
