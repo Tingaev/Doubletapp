@@ -39,9 +39,6 @@ class ThemesList(generics.ListAPIView):
         raise NotFound()
 
 
-
-
-
 class ThemeDetail(generics.RetrieveAPIView):
     queryset = Theme.objects.all()
     serializer_class = ThemeWithWordsSerializer
