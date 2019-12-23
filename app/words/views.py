@@ -31,7 +31,7 @@ class ThemesList(generics.ListAPIView):
 
         if category:
             queryset = queryset.filter(category=category)
-        elif level:
+        if level:
             queryset = queryset.filter(level=level)
 
         if queryset:

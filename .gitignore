@@ -1,3 +1,5 @@
 .idea
 postgres_data
 app/media
+.env
+.env.db
